@@ -8,8 +8,9 @@ namespace LoonBalloons.Data
 {
   public partial class Grid
   {
-    public Grid(int columnsCount, int rowsCount)
+    public Grid(int columnsCount, int rowsCount, int altitude)
     {
+      this.Altitude = altitude;
       this.ColumnsCount = columnsCount;
       this.RowsCount = rowsCount;
       this.Cells = new Cell[this.ColumnsCount, this.RowsCount];
@@ -29,36 +30,21 @@ namespace LoonBalloons.Data
     {
       if (cell.AdjacentsCells == null)
       {
-        int c;
-        int r;
-
         // West
-        c = (cell.Column - 1) % this.ColumnsCount;
-        r = cell.Row;
-        cell.AdjacentsCells.Add(this.Cells[c, r]);
+        cell.AdjacentsCells.Add(this.TranslatedCell(cell, -1, 0));
 
         // East
-        c = (cell.Column + 1) % this.ColumnsCount;
-        r = cell.Row;
-        cell.AdjacentsCells.Add(this.Cells[c, r]);
+        cell.AdjacentsCells.Add(this.TranslatedCell(cell, +1, 0));
 
         // North
-        c = cell.Column;
-        r = cell.Row - 1;
-        if (r >= 0)
-        {
-          cell.AdjacentsCells.Add(this.Cells[c, r]);
-        }
+        cell.AdjacentsCells.Add(this.TranslatedCell(cell, 0, -1));
 
         // South
-        c = cell.Column;
-        r = cell.Row + 1;
-        if (r < this.RowsCount)
-        {
-          cell.AdjacentsCells.Add(this.Cells[c, r]);
-        }
-      }
+        cell.AdjacentsCells.Add(this.TranslatedCell(cell, 0, +1));
 
+        cell.AdjacentsCells.RemoveAll(item => item == null);
+      }
+      
       return cell.AdjacentsCells;
     }
 
@@ -66,18 +52,14 @@ namespace LoonBalloons.Data
     {
       Wind wind = balloon.CurrentCell.Winds.First(item => item.Key == balloon.CurrentAltitude).Value;
 
-      int c = (balloon.CurrentCell.Column + wind.ForceColumn) % this.ColumnsCount;
-      int r = balloon.CurrentCell.Row + wind.ForceRow;
-
-      if (r < 0 || r >= this.RowsCount)
-      {
-        balloon.IsLost = true;
-      }
-      else
-      {
-        balloon.CurrentCell = this.Cells[c, r];
-      }
+      balloon.CurrentCell = this.TranslatedCell(balloon.CurrentCell, wind.ForceColumn, wind.ForceRow);
     }
 
+    public Cell TranslatedCell(Cell startingCell, int tC, int tR)
+    {
+      int c = (startingCell.Column + tC) % this.ColumnsCount;
+      int r = startingCell.Row + tR;
+      return (r < 0 || r >= this.RowsCount) ? this.Cells[c, r] : null;
+    }
   }
 }
