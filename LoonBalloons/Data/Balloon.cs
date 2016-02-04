@@ -19,6 +19,14 @@ namespace LoonBalloons.Data
 
     public Cell CurrentCell { get; set; }
 
+    public bool IsLaunched
+    {
+      get
+      {
+        return this.CurrentAltitude > 0;
+      }
+    }
+
     public bool IsLost
     {
       get
