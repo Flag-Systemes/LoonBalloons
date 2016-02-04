@@ -12,7 +12,7 @@ namespace LoonBalloons
   {
     static void Main(string[] args)
     {
-      Grid grid = Grid.Get();
+      Grid grid = Grid.NewGrid();
     }
   }
 }

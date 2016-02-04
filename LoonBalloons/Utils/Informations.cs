@@ -1,10 +1,6 @@
-﻿using LoonBalloons.Data;
-using LoonBalloons.Utils;
+﻿using LoonBalloons.Utils;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LoonBalloons.Data
 {
@@ -27,7 +23,7 @@ namespace LoonBalloons.Data
 
     #endregion
     #region Get
-    public static Grid Get()
+    public static Grid NewGrid()
     {
       Grid newG = Grid.GetRowColumnAltitude();
       newG.GetTargetRadiusBalloonTurn();
