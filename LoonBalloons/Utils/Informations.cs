@@ -6,25 +6,33 @@ using System.Threading.Tasks;
 
 namespace LoonBalloons.Utils
 {
-    public class Informations
+  public class Informations
+  {
+    public Informations()
     {
-        public Informations()
-        {
-            resultFile = FileUtils.In;
-        }
-
-        public int Row { get; set; }
-
-        public int Column { get; set; }
-
-        public int Altitude { get; set; }
-
-        public List<Tuple<int, int>> Winds { get; set; }
-
-        public int NbTour { get; set; }
-
-        public int Ballons { get; set; }
-
-        List<string> resultFile = new List<string>();
+      FileResult = FileUtils.In;
     }
+
+    public int Altitude { get; set; }
+
+    public int Balloons { get; set; }
+
+    public int Column { get; set; }
+
+    public List<string> FileResult = new List<string>();
+    
+    public List<Tuple<int, int>> ListePositionTarget { get; set; }
+    
+    public int Radius { get; set; }
+
+    public int Row { get; set; }
+
+    public int TargetCell { get; set; }
+
+    public int TurnNumber { get; set; }
+
+    public int StartC { get; set; }
+
+    public int StartR { get; set; }
+  }
 }
