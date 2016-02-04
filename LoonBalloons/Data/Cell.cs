@@ -14,8 +14,6 @@ namespace LoonBalloons.Data
 
     public int Y { get; set; }
     
-    public Dictionary<int, Tuple<int, int>> Winds { get; set; }
-
-
+    public Dictionary<int, Wind> Winds { get; set; }
   }
 }
