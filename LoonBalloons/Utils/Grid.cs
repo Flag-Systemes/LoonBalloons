@@ -80,8 +80,15 @@ namespace LoonBalloons.Data
           int caseV = 0;
           for (int c = 0; c < ColumnsCount; c += 1)
           {
-            Cells[c, r] = new Cell { Column = c, Row = r };
-            Cells[c, r].Winds = new Dictionary<int, Wind>();
+            if (Cells[c, r] == null)
+            {
+              Cells[c, r] = new Cell { Column = c, Row = r };
+            }
+            if (Cells[c, r].Winds == null)
+            {
+              Cells[c, r].Winds = new Dictionary<int, Wind>();
+            }
+
             Cells[c, r].Winds.Add(a, new Wind(int.Parse(rav[caseV++]), int.Parse(rav[caseV++])));
           }
         }
