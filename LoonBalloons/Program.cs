@@ -13,6 +13,7 @@ namespace LoonBalloons
     static void Main(string[] args)
     {
       Grid grid = Grid.NewGrid();
+      grid.ToDebug();
     }
   }
 }

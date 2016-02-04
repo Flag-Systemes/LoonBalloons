@@ -1,6 +1,7 @@
 ﻿using LoonBalloons.Utils;
 using System;
 using System.Collections.Generic;
+using System.Drawing.Drawing2D;
 
 namespace LoonBalloons.Data
 {
@@ -10,7 +11,7 @@ namespace LoonBalloons.Data
 
     #region Propriétés
     public int Balloons { get; set; }
-    
+
     public List<Tuple<int, int>> ListePositionTarget { get; set; }
 
     public int TargetNumber { get; set; }
@@ -73,15 +74,15 @@ namespace LoonBalloons.Data
     {
       for (int a = 0; a < Altitude; a += 1)
       {
+        var rav = FileUtils.In[_line++].Split(' ');
         for (int r = 0; r < RowsCount; r += 1)
         {
-          var rav = FileUtils.In[_line++].Split(' ');
           int caseV = 0;
           for (int c = 0; c < ColumnsCount; c += 1)
           {
-            Cells[r, c] = new Cell { Column = c, Row = r };
-            Cells[r, c].Winds = new Dictionary<int, Wind>();
-            Cells[r, c].Winds.Add(a, new Wind(int.Parse(rav[caseV++]), int.Parse(rav[caseV++])));
+            Cells[c, r] = new Cell { Column = c, Row = r };
+            Cells[c, r].Winds = new Dictionary<int, Wind>();
+            Cells[c, r].Winds.Add(a, new Wind(int.Parse(rav[caseV++]), int.Parse(rav[caseV++])));
           }
         }
       }
@@ -89,11 +90,25 @@ namespace LoonBalloons.Data
     #endregion
 
     #region Utils
-    public double CalcColumnDist(Cell source, Cell dest)
+    public int CalcColumnDist(Cell source, Cell dest)
     {
-      return Math.Pow((
-        Math.Pow((source.Row - dest.Row), 2) 
-        + Math.Min(Math.Abs(source.Column - dest.Column), ColumnsCount - Math.Abs(source.Column - dest.Column))), 2);
+      return Convert.ToInt32((Math.Pow((
+        Math.Pow((source.Row - dest.Row), 2)
+        + Math.Min(Math.Abs(source.Column - dest.Column), ColumnsCount - Math.Abs(source.Column - dest.Column))), 2)));
+    }
+
+    public void ToDebug()
+    {
+      int i = 0;
+      int j = 0;
+      Console.WriteLine("Rows: {0} - Columns: {1} - Altitude: {2}", RowsCount, ColumnsCount, Altitude);
+      Console.WriteLine("Radius: {0} - Number of turns: {1}", BalloonRadius, TurnNumber);
+      Console.WriteLine("Start X: {0} - Start Y: {1}", StartX, StartY);
+      Console.WriteLine("Targets:");
+      foreach (Tuple<int, int> t in ListePositionTarget)
+      {
+        Console.WriteLine("\t[{0}]: X = {1} - Y = {2}", i++, t.Item1, t.Item2);
+      }
     }
     #endregion
   }
