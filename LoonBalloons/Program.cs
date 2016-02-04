@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using LoonBalloons.Utils;
+using LoonBalloons.Data;
 
 namespace LoonBalloons
 {
@@ -11,9 +12,7 @@ namespace LoonBalloons
   {
     static void Main(string[] args)
     {
-      Grid grid = new Grid();
-
-      grid.Get();
+      Grid grid = Grid.Get();
     }
   }
 }

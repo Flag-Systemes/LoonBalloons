@@ -1,28 +1,21 @@
 ﻿using LoonBalloons.Data;
+using LoonBalloons.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LoonBalloons.Utils
+namespace LoonBalloons.Data
 {
   public partial class Grid
   {
-    private int _line = 0;
+    private int _line = 1;
 
     #region Propriétés
-    public int Altitude { get; set; }
-
     public int Balloons { get; set; }
-
-    public int Columns { get; set; }
-
+    
     public List<Tuple<int, int>> ListePositionTarget { get; set; }
-
-    public int Radius { get; set; }
-
-    public int Rows { get; set; }
 
     public int TargetNumber { get; set; }
 
@@ -32,32 +25,32 @@ namespace LoonBalloons.Utils
 
     public int StartY { get; set; }
 
-    public Dictionary<int, Wind> Winds { get; set; }
-
     #endregion
     #region Get
-    public void Get()
+    public static Grid Get()
     {
-      GetRowColumnAltitude();
-      GetTargetRadiusBalloonTurn();
-      GetStartingCells();
-      GetTargetPositions();
-      GetWinds();
+      Grid newG = Grid.GetRowColumnAltitude();
+      newG.GetTargetRadiusBalloonTurn();
+      newG.GetStartingCells();
+      newG.GetTargetPositions();
+      newG.GetWinds();
+      return newG;
     }
 
-    public void GetRowColumnAltitude()
+    public static Grid GetRowColumnAltitude()
     {
-      var r = FileUtils.In[_line++].Split(' ');
-      Rows = int.Parse(r[0]);
-      Columns = int.Parse(r[1]);
-      Altitude = int.Parse(r[2]);
+      var r = FileUtils.In[0].Split(' ');
+      int rowsCount = int.Parse(r[0]);
+      int columnsCount = int.Parse(r[1]);
+      int altitude = int.Parse(r[2]);
+      return new Grid(rowsCount, columnsCount, altitude);
     }
 
     public void GetTargetRadiusBalloonTurn()
     {
       var r = FileUtils.In[_line++].Split(' ');
       TargetNumber = int.Parse(r[0]);
-      Radius = int.Parse(r[1]);
+      BalloonRadius = int.Parse(r[1]);
       Balloons = int.Parse(r[2]);
       TurnNumber = int.Parse(r[3]);
     }
@@ -81,13 +74,17 @@ namespace LoonBalloons.Utils
 
     public void GetWinds()
     {
-      Winds = new Dictionary<int, Wind>();
       for (int a = 0; a < Altitude; a += 1)
       {
-        for (int r = 0; r < Rows; r += 1)
+        for (int r = 0; r < RowsCount; r += 1)
         {
-          for (int c = 0; c < Columns; c += 1)
+          var rav = FileUtils.In[_line++].Split(' ');
+          int caseV = 0;
+          for (int c = 0; c < ColumnsCount; c += 1)
           {
+            Cells[r, c] = new Cell { Column = c, Row = r };
+            Cells[r, c].Winds = new Dictionary<int, Wind>();
+            Cells[r, c].Winds.Add(a, new Wind(int.Parse(rav[caseV++]), int.Parse(rav[caseV++])));
           }
         }
       }
@@ -98,8 +95,8 @@ namespace LoonBalloons.Utils
     public double CalcColumnDist(Cell source, Cell dest)
     {
       return Math.Pow((
-        Math.Pow((source.X - dest.X), 2) 
-        + Math.Min(Math.Abs(source.Y - dest.Y), Columns - Math.Abs(source.Y - dest.Y))), 2);
+        Math.Pow((source.Row - dest.Row), 2) 
+        + Math.Min(Math.Abs(source.Column - dest.Column), ColumnsCount - Math.Abs(source.Column - dest.Column))), 2);
     }
     #endregion
   }
