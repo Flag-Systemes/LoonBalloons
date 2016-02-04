@@ -11,15 +11,9 @@ namespace LoonBalloons
   {
     static void Main(string[] args)
     {
-      string test;
+      Grid grid = new Grid();
 
-      test = "2,1 5 1 2 5";
-      List<decimal> liste1 = test.Split<decimal>(' ');
-
-      test = "2 1 5 1 2 5";
-      List<int> liste2 = test.Split<int>(' ');
-
-      Console.ReadLine();
+      grid.Get();
     }
   }
 }
