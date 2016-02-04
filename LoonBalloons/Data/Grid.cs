@@ -44,8 +44,31 @@ namespace LoonBalloons.Data
 
         cell.AdjacentsCells.RemoveAll(item => item == null);
       }
-      
+
       return cell.AdjacentsCells;
+    }
+
+    public List<Cell> CoveredCells(Cell centerCell, int radius)
+    {
+      List<Cell> result = new List<Cell>();
+
+      for (int dC = 0; dC <= radius; dC++)
+      {
+        for (int dR = 1; dR <= radius; dR++)
+        {
+          Cell coveredCell = this.TranslatedCell(centerCell, dC, dR);
+          bool valid = coveredCell != null && this.CalcColumnDist(centerCell, coveredCell) <= radius;
+          if (valid)
+          {
+            result.Add(coveredCell);
+            result.Add(this.TranslatedCell(centerCell, -dR, dC));
+            result.Add(this.TranslatedCell(centerCell, dC, -dR));
+            result.Add(this.TranslatedCell(centerCell, dR, dC));
+          }
+        }
+      }
+
+      return result;
     }
 
     public void MoveBalloon(Balloon balloon)

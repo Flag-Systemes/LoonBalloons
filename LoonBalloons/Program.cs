@@ -13,6 +13,8 @@ namespace LoonBalloons
     static void Main(string[] args)
     {
       Grid grid = Grid.NewGrid();
+
+      List<Cell> cells = grid.CoveredCells(grid.Cells[3, 3], 3);
     }
   }
 }
