@@ -66,18 +66,14 @@ namespace LoonBalloons.Data
     {
       Wind wind = balloon.CurrentCell.Winds.First(item => item.Key == balloon.CurrentAltitude).Value;
 
-      int c = (balloon.CurrentCell.Column + wind.ForceColumn) % this.ColumnsCount;
-      int r = balloon.CurrentCell.Row + wind.ForceRow;
-
-      if (r < 0 || r >= this.RowsCount)
-      {
-        balloon.IsLost = true;
-      }
-      else
-      {
-        balloon.CurrentCell = this.Cells[c, r];
-      }
+      balloon.CurrentCell = this.TranslatedCell(balloon.CurrentCell, wind.ForceColumn, wind.ForceRow);
     }
 
+    public Cell TranslatedCell(Cell startingCell, int tC, int tR)
+    {
+      int c = (startingCell.Column + tC) % this.ColumnsCount;
+      int r = startingCell.Row + tR;
+      return (r < 0 || r >= this.RowsCount) ? this.Cells[c, r] : null;
+    }
   }
 }
