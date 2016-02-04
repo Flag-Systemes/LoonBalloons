@@ -22,6 +22,7 @@ namespace LoonBalloons.Data
     public int StartY { get; set; }
 
     #endregion
+
     #region Get
     public static Grid NewGrid()
     {
