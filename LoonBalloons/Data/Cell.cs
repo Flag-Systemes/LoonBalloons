@@ -10,9 +10,9 @@ namespace LoonBalloons.Data
   {
     public List<Cell> AdjacentsCells { get; set; }
 
-    public int X { get; set; }
+    public int Column { get; set; }
 
-    public int Y { get; set; }
+    public int Row { get; set; }
     
     public Dictionary<int, Wind> Winds { get; set; }
   }
