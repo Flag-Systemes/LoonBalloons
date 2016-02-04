@@ -8,8 +8,14 @@ namespace LoonBalloons.Data
 {
   public class Wind
   {
-    public int ForceX { get; set; }
+    public Wind(int forceX, int forceY)
+    {
+      this.ForceX = forceX;
+      this.ForceY = forceY;
+    }
 
-    public int ForceY { get; set; }
+    public int ForceX { get; private set; }
+
+    public int ForceY { get; private set; }
   }
 }
