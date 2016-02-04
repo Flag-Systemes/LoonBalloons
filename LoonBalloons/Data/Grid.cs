@@ -8,8 +8,9 @@ namespace LoonBalloons.Data
 {
   public partial class Grid
   {
-    public Grid(int columnsCount, int rowsCount)
+    public Grid(int columnsCount, int rowsCount, int altitude)
     {
+      this.Altitude = altitude;
       this.ColumnsCount = columnsCount;
       this.RowsCount = rowsCount;
       this.Cells = new Cell[this.ColumnsCount, this.RowsCount];
